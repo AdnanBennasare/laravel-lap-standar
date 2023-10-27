@@ -25,15 +25,100 @@ class type_handicapController extends Controller
     }
 
 
-    // New method for handling search
-    public function search(Request $request)
+
+    public function update(Request $request, $id){
+        $this->typeHandicapRepositoryHome->update($request, $id);
+        return redirect()->route('typeHandicap.index');
+    }
+
+
+
+    public function store(Request $request){
+        $this->typeHandicapRepositoryHome->store($request);
+        return redirect()->route('typeHandicap.index')->with('success', 'product added successfully');
+    }
+
+
+ 
+
+    public function edit($id)
     {
-        $keyword = $request->input('table_search');
-        $data = $this->typeHandicapRepository->search($keyword);
+        $type_handicap =  $this->typeHandicapRepositoryHome->edit($id);
+        return view('type handicap.edit', compact('type_handicap'));
+    }
+
+    
+
+    public function show($id)
+    {
+        $type_handicap =  $this->typeHandicapRepositoryHome->show($id);
+        return view('type handicap.view', compact('type_handicap'));
+    }
+
+
+    public function destroy($id)
+    {
+        $this->typeHandicapRepositoryHome->destroy($id);
+        return redirect('typeHandicap');
+    }
+
+   
+    public function create(){
+        return view('type handicap.create');
+    }
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+        // public function filter(Request $request)
+        // {
+        //     // Retrieve filter parameters from the request
+        //     $filterParam = $request->input('filterParam');
+            
+        //     // Perform filtering logic based on $filterParam
+        //     $filteredData = type_handicap::where('nom', $filterParam)->get();
+            
+        //     // Return filtered data
+        //     return response()->json($filteredData);
+        // }
+        
+    
+
+    // New method for handling search
+    // public function search(Request $request)
+    // {
+    //     $keyword = $request->input('table_search');
+    //     $data = $this->typeHandicapRepository->search($keyword);
         
 
-        return view('type handicap.index', compact('data'));
-    }
+    //     return view('type handicap.index', compact('data'));
+    // }
 
 
     // public function search(Request $request)
@@ -44,62 +129,14 @@ class type_handicapController extends Controller
     //     return response()->json($dataoo);
     // }
 
-    
-
-    public function create(){
-        return view('type handicap.create');
-    }
+  
 
 
-    public function store(Request $request){
 
-        $validatedData = $request->validate([
-            'type_handicap' => 'required|string',
-            'description' => 'required|string',
-        ]);
 
-        $type_handicap = new type_handicap;
-        $type_handicap->nom = $request->type_handicap;
-        $type_handicap->description = $request->description;
-        $type_handicap->save();
-        return redirect()->route('typeHandicap.index')->with('success', 'product added successfully');
 
-        // return view('type handicap.create');
-    }
+ 
 
-    public function edit($id)
-    {
-        $type_handicap = type_handicap::find($id);
-        return view('type handicap.edit', compact('type_handicap'));
-    }
-
-    
-
-    public function update(Request $request, $id){
-
-        $validatedData = $request->validate([
-            'type_handicap' => 'required|string',
-            'description' => 'required|string',
-        ]);
-
-        $type_handicap = type_handicap::find($id);
-        $type_handicap->nom = $request->type_handicap;
-        $type_handicap->description = $request->description;
-        $type_handicap->save();
-        return redirect()->route('typeHandicap.index');
-    }
-
-    public function destroy($id)
-    {
-        $delete = type_handicap::find($id)->delete();
-        return redirect('typeHandicap');
-
-    }
-
-    public function show($id)
-    {
-        $type_handicap = type_handicap::find($id);
-        return view('type handicap.view', compact('type_handicap'));
-    }
+   
 
 }

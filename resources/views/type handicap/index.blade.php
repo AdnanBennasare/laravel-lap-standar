@@ -21,7 +21,7 @@
     <section class="content">
         <div class="container-fluid">
 
-            @if(session('success'))
+        @if(session('success'))
          <div class="alert alert-success">
         {{ session('success') }}
          </div>
@@ -39,7 +39,7 @@
                             
                             <div class="input-group input-group-sm" style="width: 150px;">
                                 <!-- SEARCH input -->
-                                    <input type="text" name="table_search" id="table_search" class="form-control float-right" placeholder="Search">                             
+                                    <input type="text" name="filterInput" id="filterInput" class="form-control float-right" placeholder="Search">                             
                             </div>
                           </div>
                 
@@ -113,12 +113,36 @@
     {{$data->links()}}
 </div>
 
-        </div><!-- /.container-fluid -->
+    </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Assuming you're using jQuery for simplicity
+$('#filterInput').on('input', function() {
+    var filterParam = $(this).val();
+    console.log(filterParam);
+
+    $.ajax({
+        url: '/filter',
+        method: 'GET',
+        data: {
+            filterParam: filterParam
+        },
+        success: function(response) {
+            console.log(response)
+            // Handle the filtered data returned from the server
+            // Update the UI with the filtered results
+        },
+        error: function(error) {
+            // Handle errors if any
+        }
+    });
+});
+
+</script>
 
 
 

@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('typeHandicap', type_handicapController::class);
+Route::get('/filter', [type_handicapController::class, 'search']);
 
-Route::get('/typeHandicap/search', [TypeHandicapController::class, 'search'])->name('typeHandicap.search');
+
+// Route::get('/typeHandicap/search', [TypeHandicapController::class, 'search'])->name('typeHandicap.search');
 
 
