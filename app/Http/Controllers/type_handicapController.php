@@ -5,15 +5,46 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\type_handicap;
 
-
+use App\Repositories\TypeHandicapRepositoryInterface;
 
 class type_handicapController extends Controller
 {
+
+    private $typeHandicapRepositoryHome;
     //
-    public function index(){
-        $data = type_handicap::all();
+
+    public function __construct(TypeHandicapRepositoryInterface $typeHandicapRepository)
+    {
+        $this->typeHandicapRepositoryHome = $typeHandicapRepository;
+    }
+
+    public function index()
+    {
+        $data = $this->typeHandicapRepositoryHome->all();
         return view('type handicap.index', compact('data'));
     }
+
+
+    // New method for handling search
+    public function search(Request $request)
+    {
+        $keyword = $request->input('table_search');
+        $data = $this->typeHandicapRepository->search($keyword);
+        
+
+        return view('type handicap.index', compact('data'));
+    }
+
+
+    // public function search(Request $request)
+    // {
+    //     $keyword = $request->input('table_search');
+    //     $dataoo = $this->typeHandicapRepository->search($keyword);
+    
+    //     return response()->json($dataoo);
+    // }
+
+    
 
     public function create(){
         return view('type handicap.create');

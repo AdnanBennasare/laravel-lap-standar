@@ -35,10 +35,21 @@
                             <a href="{{route('typeHandicap.create')}}" class="btn btn-primary"><i
                                     class="fa-solid fa-plus"></i></a>
                         </div>
-                        <!-- SEARCH FORM -->
+                        <div class="card-tools">
+                            
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <!-- SEARCH input -->
+                                    <input type="text" name="table_search" id="table_search" class="form-control float-right" placeholder="Search">                             
+                            </div>
+                          </div>
+                
+               
 
                     </div>
                 </div>
+  
+
+           
                 <div class="card-body p-0 table-data">
                     <table class="table table-striped">
                         <thead>
@@ -50,7 +61,9 @@
                         </thead>
                         <tbody>
 
-            @foreach ($data as $value )
+             
+                    @foreach ($data as $value)
+                
 
             <tr>
                 <td>{{$value->id}}</td>
@@ -92,10 +105,20 @@
                 </div>
             </div>
 
+
+
+
+                <!-- Pagination Links -->
+<div class="card-footer clearfix text-center">
+    {{$data->links()}}
+</div>
+
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 
