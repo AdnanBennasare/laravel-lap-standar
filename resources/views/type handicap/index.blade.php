@@ -135,30 +135,36 @@ $(document).ready(function() {
                 
                 // Iterate through the response data and append new rows to the table
                 $.each(response.data, function(index, value) {
-                    var actionsHtml = '<td class="project-actions text-right">' +
-                    '<a class="btn btn-primary btn-sm" href="{{ route('typeHandicap.show', $value->id) }}">' +
-                    '<i class="fas fa-folder"></i> Afficher' +
-                    '</a>' +
-                    '<a class="btn btn-info btn-sm" href="{{ route('typeHandicap.edit', $value->id) }}">' +
-                    '<i class="fas fa-pencil-alt"></i> Modifier' +
-                    '</a>' +
-                    '<form style="display: inline-block;" action="{{ route('typeHandicap.destroy', $value->id) }}" method="post">' +
-                    '@csrf' +
-                    '@method("DELETE")' +
-                    '<button type="submit" class="btn btn-danger btn-sm">' +
-                    '<i class="fas fa-trash"></i> Supprimer' +
-                    '</button>' +
-                    '</form>' +
-                    '</td>';
+                var showUrl = showRoute.replace(':id', value.id);
+                var editUrl = editRoute.replace(':id', value.id);
+                var deleteUrl = deleteRoute.replace(':id', value.id);
 
-                    var newRow = '<tr>' +
-                    '<td>' + value.id + '</td>' +
-                    '<td>' + value.nom + '</td>' +
-                    '<td>' + value.description + '</td>' +
-                    actionsHtml + // Include the actions HTML here
-                    '</tr>';
-                    $('#result-table').append(newRow);
-                    });
+                var actionsHtml = '<td class="project-actions text-right">' +
+                '<a class="btn btn-primary btn-sm" href="' + showUrl + '">' +
+                '<i class="fas fa-folder"></i> Afficher' +
+                '</a>' +
+                '<a class="btn btn-info btn-sm" href="' + editUrl + '">' +
+                '<i class="fas fa-pencil-alt"></i> Modifier' +
+                '</a>' +
+                '<form style="display: inline-block;" action="' + deleteUrl + '" method="post">' +
+                '<input type="hidden" name="_token" value="' + csrfToken + '">' +
+                '<input type="hidden" name="_method" value="DELETE">' +
+                '<button type="submit" class="btn btn-danger btn-sm">' +
+                '<i class="fas fa-trash"></i> Supprimer' +
+                '</button>' +
+                '</form>' +
+                '</td>';
+
+                var newRow = '<tr>' +
+                '<td>' + value.id + '</td>' +
+                '<td>' + value.nom + '</td>' +
+                '<td>' + value.description + '</td>' +
+                actionsHtml +
+                '</tr>';
+
+                $('#result-table').append(newRow);
+                });
+
 
 
                 $('#pagination-container').html(response.links);
@@ -172,6 +178,14 @@ $(document).ready(function() {
 });
 
 </script>
+<script>
+    var showRoute = "{{ route('typeHandicap.show', ':id') }}";
+    var editRoute = "{{ route('typeHandicap.edit', ':id') }}";
+    var deleteRoute = "{{ route('typeHandicap.destroy', ':id') }}";
+    var csrfToken = "{{ csrf_token() }}";
+</script>
+
+
 
 
 
