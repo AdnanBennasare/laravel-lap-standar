@@ -13,8 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::post('/search-handicap', [type_handicapController::class, 'searchhandicap'])->name('search');
 Route::resource('typeHandicap', type_handicapController::class);
-Route::get('/filter', [type_handicapController::class, 'search']);
+// Route::get('/search-handicap', type_handicapController::class);
+
+Route::get('/search-handicap', [type_handicapController::class, 'searchHandicap']);
+
+
+// Route::post('/search', [type_handicapController::class, 'search'])->name('search');
+
+// Route::get('/filter', [type_handicapController::class, 'search']);
 
 
 // Route::get('/typeHandicap/search', [TypeHandicapController::class, 'search'])->name('typeHandicap.search');

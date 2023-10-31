@@ -20,9 +20,8 @@ interface TypeHandicapRepositoryInterface
     public function show($id);
 // destroy dunction 
     public function destroy($id);
-   
 
-    // public function search($keyword);
+    public function search($keyword);
 
 
 }

@@ -69,8 +69,37 @@ class type_handicapController extends Controller
 
 
 
+    // public function searchHandicap(Request $request)
+    // {
+    //     $keyword = $request->input('search');
+    //     $data = $this->typeHandicapRepositoryHome->search($keyword);
+    
+    //     return response()->json($data);
+    // }
+
+    public function searchHandicap(Request $request)
+    {
+        $keyword = $request->input('search');
+        $data = $this->typeHandicapRepositoryHome->search($keyword);
+        return response()->json([
+            'data' => $data->items(),
+            'links' => $data->links()->toHtml(),
+        ]);
+    }
+    
 
 
+
+
+    // public function searchStagiaire(Request $request) {
+    //     $searchQuery = $request->input('search');
+    //     $results = $this->typeHandicapRepositoryHome->search($searchQuery);
+
+    //     return response()->json([
+    //         'data' => $results->items(),
+    //         'links' => $results->links()->toHtml(),
+    //     ]);
+    // }
     
     
     
@@ -121,15 +150,6 @@ class type_handicapController extends Controller
     // }
 
 
-    // public function search(Request $request)
-    // {
-    //     $keyword = $request->input('table_search');
-    //     $dataoo = $this->typeHandicapRepository->search($keyword);
-    
-    //     return response()->json($dataoo);
-    // }
-
-  
 
 
 

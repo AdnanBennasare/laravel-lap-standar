@@ -39,7 +39,7 @@
                             
                             <div class="input-group input-group-sm" style="width: 150px;">
                                 <!-- SEARCH input -->
-                                    <input type="text" name="filterInput" id="filterInput" class="form-control float-right" placeholder="Search">                             
+                                    <input type="text" name="search" id="searchInput" class="form-control float-right" placeholder="Search">                             
                             </div>
                           </div>
                 
@@ -59,7 +59,7 @@
                                 <th>Description</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="result-table">
 
              
                     @foreach ($data as $value)
@@ -109,7 +109,7 @@
 
 
                 <!-- Pagination Links -->
-<div class="card-footer clearfix text-center">
+<div class="card-footer clearfix text-center" id="pagination-container">
     {{$data->links()}}
 </div>
 
@@ -119,26 +119,55 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{{-- result-table --}}
 <script>
-    // Assuming you're using jQuery for simplicity
-$('#filterInput').on('input', function() {
-    var filterParam = $(this).val();
-    console.log(filterParam);
 
-    $.ajax({
-        url: '/filter',
-        method: 'GET',
-        data: {
-            filterParam: filterParam
-        },
-        success: function(response) {
-            console.log(response)
-            // Handle the filtered data returned from the server
-            // Update the UI with the filtered results
-        },
-        error: function(error) {
-            // Handle errors if any
-        }
+$(document).ready(function() {
+    $('#searchInput').keyup(function() {
+        var keyword = $(this).val();
+        $.ajax({
+            url: '/search-handicap', // URL should match the route where searchHandicap method is defined
+            type: 'GET',
+            data: { search: keyword },
+            success: function(response) {
+                // Clear existing table rows
+                $('#result-table').empty();
+                
+                // Iterate through the response data and append new rows to the table
+                $.each(response.data, function(index, value) {
+                    var actionsHtml = '<td class="project-actions text-right">' +
+                    '<a class="btn btn-primary btn-sm" href="{{ route('typeHandicap.show', $value->id) }}">' +
+                    '<i class="fas fa-folder"></i> Afficher' +
+                    '</a>' +
+                    '<a class="btn btn-info btn-sm" href="{{ route('typeHandicap.edit', $value->id) }}">' +
+                    '<i class="fas fa-pencil-alt"></i> Modifier' +
+                    '</a>' +
+                    '<form style="display: inline-block;" action="{{ route('typeHandicap.destroy', $value->id) }}" method="post">' +
+                    '@csrf' +
+                    '@method("DELETE")' +
+                    '<button type="submit" class="btn btn-danger btn-sm">' +
+                    '<i class="fas fa-trash"></i> Supprimer' +
+                    '</button>' +
+                    '</form>' +
+                    '</td>';
+
+                    var newRow = '<tr>' +
+                    '<td>' + value.id + '</td>' +
+                    '<td>' + value.nom + '</td>' +
+                    '<td>' + value.description + '</td>' +
+                    actionsHtml + // Include the actions HTML here
+                    '</tr>';
+                    $('#result-table').append(newRow);
+                    });
+
+
+                $('#pagination-container').html(response.links);
+                console.log(response.links);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
     });
 });
 
